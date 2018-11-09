@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			JSONP 跨域实例分析
+		</title>
+		<script src="http://cdn.static.runoob.com/libs/jquery/1.8.3/jquery.js">
+		</script>
+	</head>
+	<body>
+		<h1 style="padding:20px 20px">jQuery JSONP 跨域实例分析</h1>
+		<div id="jsonp1" style="padding:20px 20px">
+		</div>
+		<div id="jsonp2" style="padding:20px 20px">
+		</div>
+		<div id="jsonp3" style="padding:20px 20px">
+		</div>
+		<script>		
+			//getJSON---方式：自动生成随机回掉函数值--故后台需要设置为根据字段（jsoncallback）获取回掉函数名
+			$.getJSON("http://127.0.0.1:8095/jsonp?jsoncallback=?",
+			function(data) {
+				console.log("1、jQuery  getJSON 方式跨域返回值==" + JSON.stringify(data));
+				$('#jsonp1').html("1、jQuery  getJSON 方式跨域返回值==" + JSON.stringify(data));
+			});
+
+			//ajax---方式：设置 dataType:"jsonp",自己定义回掉函数名称 --故后台需要设置为根据字段（jsoncallback）获取回掉函数名
+			$.ajax({
+				type: "get",
+				url: "http://127.0.0.1:8095/jsonp",
+				dataType: "jsonp",
+				//设置jsonp请求方式
+				jsonp: "jsoncallback",
+				jsonpCallback: "callbackFunction",//自己定义回掉函数名称
+				success: function(data) {
+					console.log("2、jQuery  ajax 方式跨域返回值==" + JSON.stringify(data));
+					$('#jsonp2').html("2、jQuery  ajax 方式跨域返回值==" + JSON.stringify(data));
+				},
+				error: function() {
+					alert("请求出错！");
+				}
+			});
+
+			//ajax---方式:正常ajax请求；跨域：服务端设置允许跨域请求---否则报错
+			/*
+				//express 设置
+				res.header("Access-Control-Allow-Origin", "*");
+				res.header("Access-Control-Allow-Headers", "X-Requested-With");
+				res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+				res.header("X-Powered-By",' 3.2.1')
+				res.header("Content-Type", "application/json;charset=utf-8");
+
+			*/
+			$.ajax({
+				type: "get",
+				url: "http://127.0.0.1:8095/data",
+				dataType: "json",
+				success: function(data) {
+					console.log("3、ajax get 请求返回值 ==" + JSON.stringify(data));
+					$('#jsonp3').html("3、ajax get 请求返回值==" + JSON.stringify(data));
+				},
+				error: function() {
+					alert("请求出错！");
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			原生 JSONP 跨域实例分析
+		</title>
+	</head>
+	<body>
+		<h1 style="padding:20px 20px">原生 JSONP 跨域实例分析</h1>
+		<div id="jsonp" style="padding:20px 20px">
+		</div>
+		<script type="text/javascript">	
+			//定义回调函数--处理数据
+			function callbackFunction(result) {
+				console.log("原生JSONP 跨域数据返回===" + JSON.stringify(result));
+				var  html = "原生JSONP 跨域数据返回===="+JSON.stringify(result);
+				document.getElementById('jsonp').innerHTML = html;
+			}
+		</script>
+		<script type="text/javascript" src="http://127.0.0.1:8095/jsonp?jsoncallback=callbackFunction">
+		</script>
+	</body>
+</html>
