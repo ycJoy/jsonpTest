@@ -1,4 +1,4 @@
-# node-MySql-service
+# JSONP 跨域实例分析，前端调用和后端接口设置
 	项目安装及运行
 	
 	# 安装项目依赖
@@ -8,35 +8,38 @@
 	node server.js
 	
 	
-	1、Node+Express 搭建本地接口服务器,接口提供MySql数据库增删改查功能
-		node MySql  service，data operations ( insert, update, delete,search) 
-		
-	2、接口调用测试：
-		
-		1、 http://localhost:8095/user/insert?username=test&&email=test
-		
-		2、	http://localhost:8095/user/deleteOne?username=test&&email=test
-		
-		3、	http://localhost:8095/user/update?username=3333&&email=yc@168.com
-		
-		4、	http://localhost:8095/user/search?username=test&&email=test
+	1、后端接口提供跨域支持；接口返回参数构成：回调函数名+数据  ；如果返回值格式不对，浏览器报错如：跨域请求报错 Uncaught SyntaxError: Unexpected token :
 	
-	3、express静态文件托管测试：
-		 http://localhost:8095/static/img/bird.jpg 
-		 
-	4、项目结构：
-		node-MySql-service
+		var result = jsoncallback +"("+JSON.stringify(jsonData)+")";//JSONP返回值格式
+			
 		
-		├─ README.md
-		├─ model
-		│    └─ sqlAction.js
-		├─ package-lock.json
-		├─ package.json
-		├─ public
-		│    └─ img
-		│           ├─ bird.jpg
-		│           ├─ chicken.jpg
-		│           └─ fish.jpg
-		├─ route
-		│    └─ sqlRoute.js
-		└─ server.js
+	2、express 设置跨域资源共享，允许跨域访问;nginx 等也可以设置
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Headers", "X-Requested-With");
+		res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+		res.header("X-Powered-By",' 3.2.1')
+		res.header("Content-Type", "application/json;charset=utf-8");
+	
+	3、打开jsonp.html 或者  jsonpJq.html   查看跨域访问结果
+	
+	4、接口测试：
+		4.1 http服务建立测试：
+		http://127.0.0.1:8095/
+		
+		4.2 jsonp接口地址：
+		http://127.0.0.1:8095/jsonp
+		
+		4.3 允许跨域访问的get请求地址：
+		http://127.0.0.1:8095/data
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
