@@ -17,19 +17,18 @@
 		<div id="jsonp3" style="padding:20px 20px">
 		</div>
 		<script>		
-			//getJSON---方式：自动生成随机回掉函数值--故后台需要设置为根据字段（jsoncallback）获取回掉函数名
+			//1、getJSON---方式：自动生成随机回掉函数值--后台需要设置为根据字段（jsoncallback）获取回掉函数名
 			$.getJSON("http://127.0.0.1:8095/jsonp?jsoncallback=?",
 			function(data) {
 				console.log("1、jQuery  getJSON 方式跨域返回值==" + JSON.stringify(data));
 				$('#jsonp1').html("1、jQuery  getJSON 方式跨域返回值==" + JSON.stringify(data));
 			});
 
-			//ajax---方式：设置 dataType:"jsonp",自己定义回掉函数名称 --故后台需要设置为根据字段（jsoncallback）获取回掉函数名
+			//2、ajax---方式：设置 dataType:"jsonp",自己定义回掉函数名称 --后台需要设置为根据字段（jsoncallback）获取回掉函数名
 			$.ajax({
 				type: "get",
 				url: "http://127.0.0.1:8095/jsonp",
-				dataType: "jsonp",
-				//设置jsonp请求方式
+				dataType: "jsonp",//设置jsonp请求方式
 				jsonp: "jsoncallback",
 				jsonpCallback: "callbackFunction",//自己定义回掉函数名称
 				success: function(data) {
